@@ -10,6 +10,7 @@ csv_pathname = os.path.join('Resources', 'budget_data.csv')
 with open(csv_pathname) as csv_filename:
     csv_budget_data = csv.reader(csv_filename, delimiter=',')
 
+    # initialization of numeric values
     total_no_of_mos = 0
     net_total = 0
     change_total = 0
@@ -17,8 +18,7 @@ with open(csv_pathname) as csv_filename:
     greatest_increase = 0
 
     budget_header = next(csv_budget_data)
-    print(budget_header)
-
+    
     for row in csv_budget_data:
         #read each row of budget data
         #process_budget(row)
@@ -44,7 +44,6 @@ with open(csv_pathname) as csv_filename:
                     # stores change amount and month if greater than what's already stored
                     greatest_decrease = change
                     greatest_decrease_month = row[0]
-
             else:
                 if change > greatest_increase:
                     # stores change amount and month if less than what's already stored                    
@@ -61,10 +60,17 @@ with open(csv_pathname) as csv_filename:
     average_changes = change_total / (total_no_of_mos - 1)
 
     # print analysis
-    print("Financial Analysis")
-    print("----------------------------")
-    print(f"Total Months : {str(total_no_of_mos)}")
-    print(f"Total : ${str(net_total)}")
-    print(f"Average Change : ${str(average_changes)}")
-    print(f"Greatest Increase in Profits : {greatest_increase_month} (${str(greatest_increase)})")
-    print(f"Greatest Decrease in Profits : {greatest_decrease_month} (${str(greatest_decrease)})")
+    print()
+    content =  "Financial Analysis" + "\n" 
+    content += "----------------------------" + "\n" 
+    content += "Total Months : " + str(total_no_of_mos) + "\n" 
+    content += "Total : $" + str(net_total) + "\n" 
+    content += "Average Change : $" + str(average_changes) + "\n" 
+    content += "Greatest Increase in Profits : " + greatest_increase_month + " (" +"$" + str(greatest_increase) + ")" + "\n" 
+    content += "Greatest Decrease in Profits : " + greatest_decrease_month + " (" +"$" + str(greatest_decrease) + ")"
+    print(content)
+
+
+    output_pathname = os.path.join('analysis', 'budget_analysis.txt')
+    with open(output_pathname, 'w') as budget_filename:
+        budget_filename.write(content)
