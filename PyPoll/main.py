@@ -6,20 +6,14 @@ csv_pathname = os.path.join('Resources', 'election_data.csv')
 with open(csv_pathname) as csv_filename:
     csv_election_data = csv.reader(csv_filename, delimiter=',')
 
-    print(csv_election_data)
-
     election_header = next(csv_election_data)
-    print(election_header)
 
     # initialization of numeric values
     counter = 0 
     total_votes_counter = 0
-    no_of_candidates = 0
     candidates_list = []
     candidates_votes = {}
-    percent_of_votes = 0.00
     winning_votes = 0
-    
 
     for row in csv_election_data:
 
@@ -38,18 +32,26 @@ with open(csv_pathname) as csv_filename:
             if candidate in candidates_list:
                 candidates_votes[candidate] = candidates_votes[candidate] + 1
 
-    print()
-    print("Election Results")
-    print("-------------------------")
-    print("Total Votes " + str(total_votes_counter))
-    print("-------------------------")
+    # store output into a variable
+    content  = "Election Results" + "\n"
+    content += "-------------------------" + "\n"
+    content += "Total Votes: " + str(total_votes_counter)  + "\n"
+    content += "-------------------------" + "\n"
     for candidate in candidates_list:
         percent_votes = float(candidates_votes[candidate] / total_votes_counter * 100)
         formatted_percent = "{0:.3f}%".format(percent_votes)
-        print(f"{candidate}: {formatted_percent} ({candidates_votes[candidate]})")
+        content += candidate +": " + str(formatted_percent) + " (" + str(candidates_votes[candidate]) + ")"  + "\n"
         if candidates_votes[candidate] > winning_votes:
             winning_votes = candidates_votes[candidate]
             winner = candidate
-    print("-------------------------")
-    print(f"Winner: {winner} {winning_votes}")
-    print("-------------------------")
+    content += "-------------------------" + "\n"
+    content += "Winner: " + winner + "\n"
+    content += "-------------------------"
+    
+    # print election analysis into the terminal
+    print(content)
+
+    # write election analysis into a text file
+    output_pathname = os.path.join('analysis', 'election_analysis.txt')
+    with open(output_pathname, 'w') as election_filename:
+        election_filename.write(content)

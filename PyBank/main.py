@@ -3,10 +3,6 @@ import csv
 
 csv_pathname = os.path.join('Resources', 'budget_data.csv')
 
-#def process_budget(budget_data):
-#    print(budget_data)
-    
-
 with open(csv_pathname) as csv_filename:
     csv_budget_data = csv.reader(csv_filename, delimiter=',')
 
@@ -20,8 +16,6 @@ with open(csv_pathname) as csv_filename:
     budget_header = next(csv_budget_data)
     
     for row in csv_budget_data:
-        #read each row of budget data
-        #process_budget(row)
 
         # computation of number of months
         total_no_of_mos = total_no_of_mos + 1
@@ -59,8 +53,7 @@ with open(csv_pathname) as csv_filename:
     # computation of average changes over the entire period
     average_changes = change_total / (total_no_of_mos - 1)
 
-    # print analysis
-    print()
+    # store output into a variable
     content =  "Financial Analysis" + "\n" 
     content += "----------------------------" + "\n" 
     content += "Total Months : " + str(total_no_of_mos) + "\n" 
@@ -68,9 +61,12 @@ with open(csv_pathname) as csv_filename:
     content += "Average Change : $" + str(average_changes) + "\n" 
     content += "Greatest Increase in Profits : " + greatest_increase_month + " (" +"$" + str(greatest_increase) + ")" + "\n" 
     content += "Greatest Decrease in Profits : " + greatest_decrease_month + " (" +"$" + str(greatest_decrease) + ")"
+    
+    # print analysis
+    print()
     print(content)
 
-
+    # write output into a text file
     output_pathname = os.path.join('analysis', 'budget_analysis.txt')
     with open(output_pathname, 'w') as budget_filename:
         budget_filename.write(content)
