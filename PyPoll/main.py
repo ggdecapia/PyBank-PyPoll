@@ -11,7 +11,6 @@ with open(csv_pathname) as csv_filename:
     # initialization of numeric values
     counter = 0 
     total_votes_counter = 0
-    candidates_list = []
     candidates_votes = {}
     winning_votes = 0
 
@@ -24,34 +23,33 @@ with open(csv_pathname) as csv_filename:
         candidate = row[2]
 
         # first addition of candidate into candidates list
-        if candidate not in candidates_list:
-            candidates_list.append(candidate)
-            candidates_votes[candidate] = 0
-            candidates_votes[candidate] = candidates_votes[candidate] + 1
+        if candidate not in candidates_votes:
+            candidates_votes[candidate] = 1
         else:
-            if candidate in candidates_list:
-                candidates_votes[candidate] = candidates_votes[candidate] + 1
+            candidates_votes[candidate] = candidates_votes[candidate] + 1
 
     # store output into a variable
-    content  = "Election Results" + "\n"
-    content += "-------------------------" + "\n"
-    content += "Total Votes: " + str(total_votes_counter)  + "\n"
-    content += "-------------------------" + "\n"
-    for candidate in candidates_list:
+    electtion_results  = "Election Results" + "\n"
+    electtion_results += "-------------------------" + "\n"
+    electtion_results += "Total Votes: " + str(total_votes_counter)  + "\n"
+    electtion_results += "-------------------------" + "\n"
+    for candidate in candidates_votes:
         percent_votes = float(candidates_votes[candidate] / total_votes_counter * 100)
         formatted_percent = "{0:.3f}%".format(percent_votes)
-        content += candidate +": " + str(formatted_percent) + " (" + str(candidates_votes[candidate]) + ")"  + "\n"
+        # printing/displaying each candidate and respective votes
+        electtion_results += candidate +": " + str(formatted_percent) + " (" + str(candidates_votes[candidate]) + ")"  + "\n"
+        # computing for the winner
         if candidates_votes[candidate] > winning_votes:
             winning_votes = candidates_votes[candidate]
             winner = candidate
-    content += "-------------------------" + "\n"
-    content += "Winner: " + winner + "\n"
-    content += "-------------------------"
+    electtion_results += "-------------------------" + "\n"
+    electtion_results += "Winner: " + winner + "\n"
+    electtion_results += "-------------------------"
     
     # print election analysis into the terminal
-    print(content)
+    print(electtion_results)
 
     # write election analysis into a text file
     output_pathname = os.path.join('analysis', 'election_analysis.txt')
     with open(output_pathname, 'w') as election_filename:
-        election_filename.write(content)
+        election_filename.write(electtion_results)

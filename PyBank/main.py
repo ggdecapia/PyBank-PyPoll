@@ -54,19 +54,19 @@ with open(csv_pathname) as csv_filename:
     average_changes = change_total / (total_no_of_mos - 1)
 
     # store output into a variable
-    content =  "Financial Analysis" + "\n" 
-    content += "----------------------------" + "\n" 
-    content += "Total Months : " + str(total_no_of_mos) + "\n" 
-    content += "Total : $" + str(net_total) + "\n" 
-    content += "Average Change : $" + str(average_changes) + "\n" 
-    content += "Greatest Increase in Profits : " + greatest_increase_month + " (" +"$" + str(greatest_increase) + ")" + "\n" 
-    content += "Greatest Decrease in Profits : " + greatest_decrease_month + " (" +"$" + str(greatest_decrease) + ")"
+    financial_analysis =  "Financial Analysis" + "\n" 
+    financial_analysis += "----------------------------" + "\n" 
+    financial_analysis += "Total Months : " + str(total_no_of_mos) + "\n" 
+    financial_analysis += "Total : $" + str(net_total) + "\n" 
+    financial_analysis += "Average Change : "+ "${:,.2f}".format(average_changes) + "\n" 
+    financial_analysis += "Greatest Increase in Profits : " + greatest_increase_month + " (" +"$" + str(greatest_increase) + ")" + "\n" 
+    financial_analysis += "Greatest Decrease in Profits : " + greatest_decrease_month + " (" +"$" + str(greatest_decrease) + ")"
     
     # print analysis
     print()
-    print(content)
+    print(financial_analysis)
 
     # write output into a text file
     output_pathname = os.path.join('analysis', 'budget_analysis.txt')
     with open(output_pathname, 'w') as budget_filename:
-        budget_filename.write(content)
+        budget_filename.write(financial_analysis)
